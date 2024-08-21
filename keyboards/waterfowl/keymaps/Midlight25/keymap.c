@@ -19,9 +19,11 @@
 // Defines names for use in layer keycodes and the keymap
 enum layer_names {
     _QWERTY,
-    _NAVNUM,
-    _SYM,
-    _FUNC,
+	_NAV,
+	_SYM,
+    _NUM,
+	_SHORT,
+	_MOUSE,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -33,57 +35,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------|                      |------+------+------+------+------|
  * |   A  |   S  |   D  |   F  |   G  |                      |   H  |   J  |   K  |   L  |   ;  |
  * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
- * |   Z  |   X  |   C  |   V  |   B  |  | VOL |    | SRCH|  |   N  |   M  |   ,  |   .  |   /  |
+ * |   Z  |   X  |   C  |   V  |   B  |  | MUTE|    | CAPS|  |   N  |   M  |   ,  |   .  |   /  |
  * `----------------------------------'  `-----'    `-----'  `----------------------------------'
  *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
- *          | ALL |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
+ *          | ALL |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   | SRCH|
  *          `-----'   `--------------------'            `--------------------'   `-----'
+ *                       1      2      3                   1      2      3
+ *
+ * L_Roller: Switch Virtual Desktops, L_Encoder: Volume Control
+ * R_Roller: Arrow Keys, R_Encoder: Switch Tabs
+ * Homerow Mods enabled
+ * Alt+Shift+Ctrl on R Cluster 3
+ * Alt+Ctrl+Win on L Cluster 1
+ * To Nav on L Cluster 2
+ * To Symbol on R Cluster 2
+ * To Num on LC2 + RC2
+ * To Mouse on H
+ * To Shortcuts on R Cluster 1
  */
 [_QWERTY] = LAYOUT(
-	KC_Q,				KC_W,				KC_E,				KC_R,				KC_T,			KC_Y,	KC_U,				KC_I,				KC_O,				KC_P,
-	MT(MOD_LGUI, KC_A),	MT(MOD_LALT, KC_S),	MT(MOD_LCTL, KC_D),	MT(MOD_LSFT, KC_F),	KC_G,			KC_H,	MT(MOD_LSFT, KC_J),	MT(MOD_LCTL, KC_K),	MT(MOD_LALT, KC_L),	MT(MOD_LGUI, KC_SCLN),
-	KC_Z,				KC_X,				KC_C,				KC_V,				KC_B,			KC_N,	KC_M,				KC_COMM,			KC_DOT,				KC_SLSH,
-	KC_1,				LT(3,KC_DEL),		LT(1,KC_SPC),		KC_TAB,				KC_CAPS,		KC_NUM,	KC_ESC,				KC_BSPC,			LT(2,KC_ENT),		KC_4
-),
-
-/* NUM
- *
- * ,----------------------------------.                      ,----------------------------------.
- * |  F1  |  F2  |  F3  |  F4  |  F5  |                      |  F6  |  F7  |  F8  |  F9  |  F10 |
- * |------+------+------+------+------|                      |------+------+------+------+------|
- * |   1  |   2  |   3  |   4  |   5  |                      |   6  |   7  |   8  |   9  |   0  |
- * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
- * |      |      |      |  F11 |  F12 |  | VOL |    |NUMLK|  |  F13 |      |  F15 |      |  F17 |
- * `----------------------------------'  `-----'    `-----'  `----------------------------------'
- *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
- *          | ALL |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
- *          `-----'   `--------------------'            `--------------------'   `-----'
- */
-[_NAVNUM] = LAYOUT(
-	KC_NO,		KC_PGUP,		KC_UP,			KC_PGDN,	KC_NO,				KC_SLSH,	KC_7,	KC_8,		KC_9,			KC_MINS,
-	KC_HOME,	KC_LEFT,		KC_DOWN,		KC_RGHT,	KC_END,				KC_EQL,		KC_4,	KC_5,		KC_6,			KC_PLUS,
-	KC_NO,		KC_NO,			KC_INS,			KC_NO,		KC_NO,				KC_0,		KC_1,	KC_2,		KC_3,			KC_ASTR,
-	KC_1,		LT(3,KC_DEL),	LT(1,KC_SPC),	KC_TAB,		KC_CAPS,			KC_NUM,		KC_ESC,	KC_BSPC,	LT(2,KC_ENT),	KC_4
-),
-
-/* SYM
- *
- * ,----------------------------------.                      ,----------------------------------.
- * |   !  |   #  |   &  |   [  |   ]  |                      |   `  |   \  |   *  |      |      |
- * |------+------+------+------+------|                      |------+------+------+------+------|
- * |   @  |   $  |   |  |   (  |   )  |                      |   ~  |   =  |   +  |   -  |   _  |
- * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
- * |   ^  |   %  |   '  |   {  |   }  |  | VOL |    |NUMLK|  |      |      |      |      |      |
- * `----------------------------------'  `-----'    `-----'  `----------------------------------'
- *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
- *          | ALL |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
- *          `-----'   `--------------------'            `--------------------'   `-----'
- */
-[_SYM] = LAYOUT(
-	KC_PERC,	KC_AT,			KC_LBRC,		KC_RBRC,	KC_BSLS,		KC_NO,		KC_NO,		KC_CIRC,	KC_NO,			KC_NO,
-	KC_HASH,	KC_EXLM,		KC_LPRN,		KC_RPRN,	KC_PIPE,		KC_UNDS,	KC_QUOT,	KC_DQT,		KC_TILD,		KC_GRV,
-	KC_DLR,		KC_NO,			KC_LCBR,		KC_RCBR,	KC_AMPR,		KC_NO,		KC_NO,		KC_NO,		KC_NO,			KC_NO,
-	KC_1,		LT(3,KC_DEL),	LT(1,KC_SPC),	KC_TAB,		KC_CAPS,		KC_NUM,		KC_ESC,		KC_BSPC,	LT(2,KC_ENT),	KC_4
+	KC_Q,				KC_W,				KC_E,				KC_R,				KC_T,			KC_Y,	    KC_U,				KC_I,				KC_O,				KC_P,
+	LGUI_T(KC_A),       LALT_T(KC_S),	    LSFT_T(KC_D),	    LCTL_T(KC_F),	    KC_G,			KC_H,	    RCTL_T(KC_J),	    RSFT_T(KC_K),	    LALT_T(KC_L),	    RGUI_T(KC_SCLN),
+	KC_Z,				KC_X,				KC_C,				KC_V,				KC_B,			KC_N,	    KC_M,				KC_COMM,			KC_DOT,				KC_SLSH,
+	LWIN(KC_TAB),		LT(3,KC_ESC),		LT(1,KC_ENT),		KC_TAB,				KC_MUTE,		KC_CAPS,    KC_BSPC,			KC_SPACE,			LT(2,KC_DEL),		LALT(KC_SPACE)
 ),
 
 /* NAV
@@ -93,32 +67,112 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------|                      |------+------+------+------+------|
  * |  Win |  Alt | SHFT | CTRL |      |                      | Left | Down |  Up  | Right|      |
  * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
- * |      |      |      |      |      |  | VOL |    |NUMLK|  |   *  |   #  |   ^  |   $  |   ~  |
+ * |      |      |      |      |      |  |     |    |     |  |   *  |   #  |   ^  |   $  |   ~  |
  * `----------------------------------'  `-----'    `-----'  `----------------------------------'
  *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
- *          |Reset|   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
+ *          |     |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
  *          `-----'   `--------------------'            `--------------------'   `-----'
  */
-[_FUNC] =  LAYOUT(
+[_NAV] =  LAYOUT(
 	KC_NO,	KC_NO,			KC_NO,			KC_NO,	KC_NO,			KC_NO,	KC_F7,	KC_F8,		KC_F9,			KC_F11,
 	KC_NO,	KC_NO,			KC_NO,			KC_NO,	KC_NO,			KC_NO,	KC_F4,	KC_F5,		KC_F6,			KC_F12,
 	QK_BOOT,	KC_NO,			KC_NO,			KC_NO,	KC_NO,			KC_F10,	KC_F1,	KC_F2,		KC_F3,			KC_F13,
 	KC_1,	LT(3,KC_DEL),	LT(1,KC_SPC),	KC_TAB,	KC_CAPS,		KC_NUM,	KC_ESC,	KC_BSPC,	LT(2,KC_ENT),	KC_4
 ),
 
+/* SYM
+ *
+ * ,----------------------------------.                      ,----------------------------------.
+ * |   !  |   #  |   &  |   [  |   ]  |                      |   `  |   \  |   *  |      |      |
+ * |------+------+------+------+------|                      |------+------+------+------+------|
+ * |   @  |   $  |   |  |   (  |   )  |                      |   ~  |   =  |   +  |   -  |   _  |
+ * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
+ * |   ^  |   %  |   '  |   {  |   }  |  |     |    |     |  |      |   "  |      |      |      |
+ * `----------------------------------'  `-----'    `-----'  `----------------------------------'
+ *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
+ *          |     |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
+ *          `-----'   `--------------------'            `--------------------'   `-----'
+ * Homerow Mods enabled
+ */
+[_SYM] = LAYOUT(
+	KC_PERC,	KC_AT,			KC_LBRC,		KC_RBRC,	KC_BSLS,		KC_NO,		KC_NO,		KC_CIRC,	KC_NO,			KC_NO,
+	KC_HASH,	KC_EXLM,		KC_LPRN,		KC_RPRN,	KC_PIPE,		KC_UNDS,	KC_QUOT,	KC_DQT,		KC_TILD,		KC_GRV,
+	KC_DLR,		KC_NO,			KC_LCBR,		KC_RCBR,	KC_AMPR,		KC_NO,		KC_NO,		KC_NO,		KC_NO,			KC_NO,
+	KC_1,		LT(3,KC_DEL),	LT(1,KC_SPC),	KC_TAB,		KC_CAPS,		KC_NUM,		KC_ESC,		KC_BSPC,	LT(2,KC_ENT),	KC_4
+),
+
+
+/* NUM
+ *
+ * ,----------------------------------.                      ,----------------------------------.
+ * |  F1  |  F2  |  F3  |  F4  |  F5  |                      |  F6  |  F7  |  F8  |  F9  |  F10 |
+ * |------+------+------+------+------|                      |------+------+------+------+------|
+ * |   1  |   2  |   3  |   4  |   5  |                      |   6  |   7  |   8  |   9  |   0  |
+ * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
+ * |  F11 |  F12 |  F13 |      |  F15 |  |     |    |     |  |  F17 |      |      |      |      |
+ * `----------------------------------'  `-----'    `-----'  `----------------------------------'
+ *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
+ *          |     |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
+ *          `-----'   `--------------------'            `--------------------'   `-----'
+ * Homerow Mods enabled
+ */
+[_NUM] = LAYOUT(
+	KC_NO,		KC_PGUP,		KC_UP,			KC_PGDN,	KC_NO,				KC_SLSH,	KC_7,	KC_8,		KC_9,			KC_MINS,
+	KC_HOME,	KC_LEFT,		KC_DOWN,		KC_RGHT,	KC_END,				KC_EQL,		KC_4,	KC_5,		KC_6,			KC_PLUS,
+	KC_NO,		KC_NO,			KC_INS,			KC_NO,		KC_NO,				KC_0,		KC_1,	KC_2,		KC_3,			KC_ASTR,
+	KC_1,		LT(3,KC_DEL),	LT(1,KC_SPC),	KC_TAB,		KC_CAPS,			KC_NUM,		KC_ESC,	KC_BSPC,	LT(2,KC_ENT),	KC_4
+),
+
+
 /* Shortcuts
  *
  * ,----------------------------------.                      ,----------------------------------.
- * |      |      |      |      |      |                      | S+INS|      | Info |Detail|Search|
+ * |      |      |Expand|      | Help |                      | Save | S+INS| Info |Detail|Search|
  * |------+------+------+------+------|                      |------+------+------+------+------|
- * |      | Scrn |      |      |      |                      |      |      |      |      |      |
+ * |      | Scrn | CAPW |      |      |                      | Back | Play | Next |      |      |
  * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
- * |      | ShrX | CAPW |      |      |  | VOL |    |NUMLK|  | Back | Play | Next |      |      |
+ * |      | ShrX | CAPS | Menu |      |  |     |    |     |  | Lock |      |      |      |      |
  * `----------------------------------'  `-----'    `-----'  `----------------------------------'
  *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
- *          | ALL |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
+ *          |     |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
  *          `-----'   `--------------------'            `--------------------'   `-----'
 */
+[_SHORT] = LAYOUT(
+	KC_NO,	KC_NO,			KC_NO,			KC_NO,	KC_NO,			KC_NO,	KC_F7,	KC_F8,		KC_F9,			KC_F11,
+	KC_NO,	KC_NO,			KC_NO,			KC_NO,	KC_NO,			KC_NO,	KC_F4,	KC_F5,		KC_F6,			KC_F12,
+	KC_NO,	KC_NO,			KC_NO,			KC_NO,	KC_NO,			KC_F10,	KC_F1,	KC_F2,		KC_F3,			KC_F13,
+	KC_1,	LT(3,KC_DEL),	LT(1,KC_SPC),	KC_TAB,	KC_CAPS,		KC_NUM,	KC_ESC,	KC_BSPC,	LT(2,KC_ENT),	KC_4
+),
 
-// Make Mouse Layer?
+/* Mouse Layer
+ *
+ * ,----------------------------------.                      ,----------------------------------.
+ * |      |      |  MUp |      |      |                      |      |      |      |      |      |
+ * |------+------+------+------+------|                      |------+------+------+------+------|
+ * |      | MLeft| MDown|MRight|      |                      |      |      |      |      |      |
+ * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
+ * |      |      |      | RClk |      |  |     |    |     |  |      |      |      |      |      |
+ * `----------------------------------'  `-----'    `-----'  `----------------------------------'
+ *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
+ *          | MClk|   |     | LClick| RClk |            |     |       |      |   |     |
+ *          `-----'   `--------------------'            `--------------------'   `-----'
+ * L Roller: Control Mouse Wheel, L Encoder: Mouse Wheel
+ */
 };
+
+#if defined(ENCODER_MAP_ENABLE)
+
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+    [_QWERTY] = {   ENCODER_CCW_CW(LCTL(LWIN(KC_LEFT)), LCTL(LWIN(KC_RIGHT))),
+                    ENCODER_CCW_CW(KC_VOLD, KC_VOLU),
+                    ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),
+                    ENCODER_CCW_CW(LCTL(KC_TAB), RCS(KC_TAB)) },
+    [_NAV] = {},
+    [_SYM] = {},
+    [_NUM] = {},
+    [_SHORT] = {},
+    /* [_MOUSE] = {    ENCODER_CCW_CW(LSFT(KC_MS_WH_DOWN), LSFT(KC_MS_WH_UP)),
+                    ENCODER_CCW_CW(KC_MS_WH_UP, KC_MS_WH_DOWN)} */
+};
+
+#endif
