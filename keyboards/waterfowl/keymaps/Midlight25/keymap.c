@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	KC_Q,				KC_W,				KC_E,				KC_R,				KC_T,			KC_Y,	    KC_U,				KC_I,				KC_O,				KC_P,
 	LGUI_T(KC_A),       LALT_T(KC_S),	    LSFT_T(KC_D),	    LCTL_T(KC_F),	    KC_G,			KC_H,	    RCTL_T(KC_J),	    RSFT_T(KC_K),	    LALT_T(KC_L),	    RGUI_T(KC_SCLN),
 	KC_Z,				KC_X,				KC_C,				KC_V,				KC_B,			KC_N,	    KC_M,				KC_COMM,			KC_DOT,				KC_SLSH,
-	LWIN(KC_TAB),		LT(3,KC_ESC),		LT(1,KC_ENT),		KC_TAB,				KC_MUTE,		KC_CAPS,    KC_BSPC,			KC_SPACE,			LT(2,KC_DEL),		LALT(KC_SPACE)
+	LWIN(KC_TAB),		KC_ESC,				LT(_NAV, KC_ENT),	KC_TAB,				KC_MUTE,		KC_CAPS,    KC_BSPC,			KC_SPACE,			LT(2,KC_DEL),		LALT(KC_SPACE)
 ),
 
 /* NAV
@@ -70,14 +70,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |  |     |    |     |  |   *  |   #  |   ^  |   $  |   ~  |
  * `----------------------------------'  `-----'    `-----'  `----------------------------------'
  *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
- *          |     |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   |     |
+ *          |     |   |     |   ^   |      |            |     | toNum |      |   |     |
  *          `-----'   `--------------------'            `--------------------'   `-----'
+ * To Num on LC2 + RC2
  */
 [_NAV] =  LAYOUT(
-	KC_NO,	KC_NO,			KC_NO,			KC_NO,	KC_NO,			KC_NO,	KC_F7,	KC_F8,		KC_F9,			KC_F11,
-	KC_NO,	KC_NO,			KC_NO,			KC_NO,	KC_NO,			KC_NO,	KC_F4,	KC_F5,		KC_F6,			KC_F12,
-	QK_BOOT,	KC_NO,			KC_NO,			KC_NO,	KC_NO,			KC_F10,	KC_F1,	KC_F2,		KC_F3,			KC_F13,
-	KC_1,	LT(3,KC_DEL),	LT(1,KC_SPC),	KC_TAB,	KC_CAPS,		KC_NUM,	KC_ESC,	KC_BSPC,	LT(2,KC_ENT),	KC_4
+	KC_NO,		KC_NO,			KC_NO,			KC_NO,		KC_NO,		KC_INS,		KC_HOME,	KC_PGUP,	KC_PGDN,		KC_END,
+	KC_LGUI,	KC_LALT,		KC_LSFT,		KC_LCTL,	KC_NO,		KC_LEFT,	KC_DOWN,	KC_UP,		KC_RIGHT,		KC_NO,
+	KC_NO,		KC_NO,			KC_NO,			KC_NO,		KC_NO,		KC_ASTR,	KC_HASH,	KC_CIRC,	KC_DLR,			KC_TILD,
+	KC_NO,		KC_NO,			KC_TRNS,		KC_NO,		KC_NO,		KC_NO,		KC_NO,		MO(_NUM),		KC_NO,		KC_NO
 ),
 
 /* SYM
