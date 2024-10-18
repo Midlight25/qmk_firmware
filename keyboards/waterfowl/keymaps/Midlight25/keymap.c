@@ -1,36 +1,43 @@
-/* Copyright 2022  CyanDuck
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright 2022 CyanDuck Modified 2024 Midlight
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include QMK_KEYBOARD_H
 
 #define HEH_ESC MT(MOD_LCTL | MOD_LALT | MOD_LGUI, KC_ESC)
+#define MOD_HEH (MOD_LCTL | MOD_LALT | MOD_LGUI)
 
 // Defines names for use in layer keycodes and the keymap
 enum layer_names {
     _QWERTY,
-	_NAV,
-	_SYM,
+    _NAV,
+    _SYM,
     _NUM,
-	_SHORT,
-	_MOUSE,
+    _SHORT,
+    _MOUSE,
+};
+
+enum custom_keycodes {
+    M_INFO = SAFE_RANGE,
+    M_DETL,
+    M_SRCH,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-// clang-format off
+    // clang-format off
 /* QWERTY
  *
  * ,----------------------------------.                      ,----------------------------------.
@@ -41,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |   Z  |   X  |   C  |   V  |   B  |  | MUTE|    | CAPS|  |   N  |   M  |   ,  |   .  |   /  |
  * `----------------------------------'  `-----'    `-----'  `----------------------------------'
  *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
- *          | ALL |   | ESC | ENTER | TAB  |            |  BS | SPACE | DEL  |   | SRCH|
+ *          | ALL |   | ESC | ENTER | TAB  |            | BSPC| SPACE | DEL  |   | SRCH|
  *          `-----'   `--------------------'            `--------------------'   `-----'
  *                       1      2      3                   1      2      3
  *
@@ -59,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT(
 	KC_Q,				KC_W,				KC_E,				KC_R,				KC_T,			KC_Y,	    KC_U,				KC_I,				KC_O,				KC_P,
 	LGUI_T(KC_A),       LALT_T(KC_S),	    LSFT_T(KC_D),	    LCTL_T(KC_F),	    KC_G,			KC_H,	    RCTL_T(KC_J),	    RSFT_T(KC_K),	    LALT_T(KC_L),	    RGUI_T(KC_SCLN),
-	KC_Z,				KC_X,				KC_C,				KC_V,				KC_B,			KC_N,	    KC_M,				KC_COMM,			KC_DOT,				KC_SLSH,
+	KC_Z,				KC_X,				KC_C,				KC_V,				KC_B,			KC_N,	    KC_M,				KC_COMM,			KC_DOT,				LT(_MOUSE, KC_SLSH),
 	LWIN(KC_TAB),		HEH_ESC,			LT(_SHORT, KC_ENT),	LT(_NUM, KC_TAB),	KC_MUTE,		KC_CAPS,    LT(_SYM, KC_BSPC),	LT(_NAV, KC_SPACE),	MT(MOD_MEH, KC_DEL),LALT(KC_SPACE)
 ),
 
@@ -68,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------.                      ,----------------------------------.
  * |      |      |      |      |      |                      |  INS | Home | PgUp | PgDn |  End |
  * |------+------+------+------+------|                      |------+------+------+------+------|
- * |  Win |  Alt | SHFT | CTRL |      |                      | Left | Down |  Up  | Right|      |
+ * |  GUI |  Alt | SHFT | CTRL |      |                      | Left | Down |  Up  | Right|      |
  * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
  * |      |      |      |      |      |  |     |    |     |  |   *  |   #  |   ^  |   $  |   ~  |
  * `----------------------------------'  `-----'    `-----'  `----------------------------------'
@@ -115,7 +122,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |  F11 |  F12 |  F13 |      |  F15 |  |     |    |     |  |  F17 |      |      |      |      |
  * `----------------------------------'  `-----'    `-----'  `----------------------------------'
  *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
- *          |     |   |     |       |   ^  |            |     |       |      |   |     |
+ *          |     |   |O_HEH|       |   ^  |            | BKSP| Space |  MEH |   |     |
  *          `-----'   `--------------------'            `--------------------'   `-----'
  * Homerow Mods enabled
  */
@@ -123,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	KC_F1,		KC_F2,			KC_F3,			KC_F4,		KC_F5,		KC_F6,		KC_F7,			KC_F8,			KC_F9,		KC_F10,
 	KC_1,		KC_2,			KC_3,			KC_4,		KC_5,		KC_6,		KC_7,			KC_8,			KC_9,		KC_0,
 	KC_F11,		KC_F12,			KC_F13,			KC_F15,		KC_NO,		KC_NO,		KC_F17,			KC_NO,			KC_NO,		KC_NO,
-	KC_NO,		KC_NO,			KC_NO,			KC_TRNS,	KC_NO,		KC_NO,	    KC_NO,	        KC_NO,	        KC_NO,	    KC_NO
+	KC_NO,		OSM(MOD_HEH),	KC_NO,			KC_TRNS,	KC_NO,		KC_BSPC,	KC_SPC,	        KC_MEH,	        KC_NO,	    KC_NO
 ),
 
 /* Shortcuts
@@ -139,8 +146,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *          |     |   |     |   ^   |      |            |     |       |      |   |     |
  *          `-----'   `--------------------'            `--------------------'   `-----'
 */
-[_SHORT] = LAYOUT( //TODO: Write Macros for Info, Detail, and Search
-	KC_F1,	KC_NO,		        KC_F13,			KC_NO,	    KC_F15,		KC_F17,	        LSFT_T(KC_INS),		KC_NO,		KC_NO,	    KC_NO,
+[_SHORT] = LAYOUT(
+	KC_F1,	KC_NO,		        KC_F13,			KC_NO,	    KC_F15,		KC_F17,	        LSFT_T(KC_INS),		M_INFO,		M_DETL,	    M_SRCH,
 	KC_NO,	LSG_T(KC_S),	    KC_DEL,			KC_BSPC,	KC_NO,		KC_MPRV,	    KC_MPLY,	        KC_MNXT,	KC_NO,	    KC_NO,
 	KC_NO,	LCTL_T(KC_PSCR),	CW_TOGG,		KC_MENU,    KC_NO,		LGUI_T(KC_L),   KC_NO,		        KC_NO,		KC_NO,	    KC_NO,
 	KC_NO,	KC_NO,		        KC_TRNS,		KC_NO,	    KC_NO,	    KC_NO,	        KC_NO,		        KC_NO,		KC_NO,	    KC_NO
@@ -151,9 +158,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------.                      ,----------------------------------.
  * |      |      |  MUp |      |      |                      |      |      |      |      |      |
  * |------+------+------+------+------|                      |------+------+------+------+------|
- * |      | MLeft| MDown|MRight|      |                      |      |      |      |      |      |
+ * |      | MLeft| MDown|MRight|      |                      |      | CTRL | SHFT | GUI  |      |
  * |------+------+------+------+------|  ,-----.    ,-----.  |------+------+------+------+------|
- * |      |      |      | RClk |      |  |     |    |     |  |      |      |      |      |   ^  |
+ * |      |      | LClk | RClk |      |  |     |    |     |  |      |      |      |      |   ^  |
  * `----------------------------------'  `-----'    `-----'  `----------------------------------'
  *          ,-----.   ,--------------------.            ,--------------------.   ,-----.
  *          | MClk|   |     | LClick| RClk |            |     |       |      |   |     |
@@ -161,16 +168,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * L Roller: Control Mouse Wheel, L Encoder: Mouse Wheel
  */
 [_MOUSE] = LAYOUT(
-	KC_NO,	KC_NO,		KC_NO,			KC_NO,	    KC_NO,		KC_NO,	    KC_NO,		KC_NO,		KC_NO,	    KC_NO,
-	KC_NO,	KC_NO,		KC_NO,			KC_NO,	    KC_NO,		KC_NO,	    KC_NO,		KC_NO,		KC_NO,	    KC_NO,
-	KC_NO,	KC_NO,		KC_NO,			KC_NO,	    KC_NO,		KC_NO,	    KC_NO,		KC_NO,		KC_NO,	    KC_TRNS,
-	KC_NO,	KC_NO,		KC_NO,		    KC_NO,	    KC_NO,	    KC_NO,	    KC_NO,		KC_NO,		KC_NO,	    KC_NO
+	KC_NO,  	KC_MS_WH_UP,	KC_MS_UP,		KC_MS_WH_DOWN,  KC_NO,		KC_NO,	    KC_NO,		KC_NO,		KC_NO,	    KC_NO,
+	KC_NO,  	KC_MS_LEFT,		KC_MS_DOWN,     KC_MS_RIGHT,	KC_NO,		KC_NO,	    KC_LCTL,	KC_LSFT,	KC_LGUI,    KC_NO,
+	KC_NO,  	KC_NO,		    KC_MS_BTN1,		KC_MS_BTN2,	    KC_NO,		KC_NO,	    KC_NO,		KC_NO,		KC_NO,	    KC_TRNS,
+	KC_MS_BTN3, KC_NO,		    KC_MS_BTN1,	    KC_MS_BTN2,	    KC_NO,	    KC_NO,	    KC_NO,		KC_NO,		KC_NO,	    KC_NO
 ),
 };
 // clang-format on
 
 #if defined(ENCODER_MAP_ENABLE)
 
+// clang-format off
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_QWERTY] = {   ENCODER_CCW_CW(LCTL(LWIN(KC_LEFT)), LCTL(LWIN(KC_RIGHT))),
                     ENCODER_CCW_CW(KC_VOLD, KC_VOLU),
@@ -183,5 +191,68 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_MOUSE] = {    ENCODER_CCW_CW(LSFT(KC_MS_WH_DOWN), LSFT(KC_MS_WH_UP)),
                     ENCODER_CCW_CW(KC_MS_WH_UP, KC_MS_WH_DOWN)}
 };
+// clang-format on
 
 #endif
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case M_INFO:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_HOME) SS_TAP(X_F7));
+            }
+            break;
+        case M_DETL:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_HOME) SS_TAP(X_F8));
+            }
+            break;
+        case M_SRCH:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_HOME) SS_TAP(X_F9));
+            }
+            break;
+    }
+    return true;
+}
+
+// TODO: Add Caps Lock Indicator
+// TODO: Add MEH and HEH Indicators
+bool oled_task_user(void) {
+    // TODO: Do something cool with the left half.
+    if (!is_keyboard_master()) {
+        return true;
+    }
+
+    // Host Keyboard Layer Status
+    oled_write_P(PSTR("LAYER:\n"), false);
+    oled_write_P(PSTR("\n"), false);
+
+    switch (get_highest_layer(layer_state)) {
+        case _QWERTY:
+            oled_write_P(PSTR("ALPHA\n\n\n\n"), false);
+            break;
+        case _MOUSE:
+            oled_write_P(PSTR("MOUSE\n\n\n\n"), false);
+            break;
+        case _SHORT:
+            oled_write_P(PSTR("SHORTCUTS\n\n\n\n"), false);
+            break;
+        case _NUM:
+            oled_write_P(PSTR("Numbers\n\n\n\n"), false);
+            break;
+        case _SYM:
+            oled_write_P(PSTR("Symbols\n\n\n\n"), false);
+            break;
+        case _NAV:
+            oled_write_P(PSTR("Navigation\n\n\n\n"), false);
+            break;
+        default:
+            oled_write_ln_P(PSTR("Undefined"), false);
+    }
+
+    if (is_caps_word_on()) { // FIXME Caps Word indicator stays on after caps word turns off.
+        oled_write_P(PSTR("CAPS WORD IS ON!\n\n"), false);
+    }
+    return false;
+};
