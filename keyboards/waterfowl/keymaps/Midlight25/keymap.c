@@ -216,6 +216,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+#ifdef OLED_ENABLE
 // TODO: Add Caps Lock Indicator
 // TODO: Add MEH and HEH Indicators
 bool oled_task_user(void) {
@@ -224,6 +225,7 @@ bool oled_task_user(void) {
         return true;
     }
 
+    oled_clear();
     // Host Keyboard Layer Status
     oled_write_P(PSTR("LAYER:\n"), false);
     oled_write_P(PSTR("\n"), false);
@@ -256,3 +258,5 @@ bool oled_task_user(void) {
     }
     return false;
 };
+
+#endif
